@@ -87,4 +87,39 @@ trait ConsoleHelpers {
 
         return $this;
     }
+
+    protected function warn(string $message): self
+    {
+        $this->line("\033[33m" . $message . "\033[0m");
+
+        return $this;
+    }
+
+    protected function error(string $message): self
+    {
+        $this->line("\033[31m" . $message . "\033[0m");
+
+        return $this;
+    }
+
+    protected function success(string $message): self
+    {
+        $this->line("\033[32m" . $message . "\033[0m");
+
+        return $this;
+    }
+
+    protected function debug(string $message): self
+    {
+        $this->line("\033[36m" . $message . "\033[0m");
+
+        return $this;
+    }
+
+    protected function newline(): self
+    {
+        $this->line();
+
+        return $this;
+    }
 }
