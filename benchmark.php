@@ -44,43 +44,45 @@ class Benchmark
 
     protected function init(): void
     {
-        $this->comment(str_repeat('=', 40));
-        $this->line('Preparing Benchmark script');
-        $this->comment(str_repeat('-', 40));
-        $this->line('Script version:    ' . self::VERSION);
-        $this->line('Current time:      ' . date('Y-m-d H:i:s'));
-        $this->line();
-        $this->line('Iterations to run: ' . $this->iterations);
-        $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
-        $this->comment(str_repeat('=', 40));
-        $this->line();
+        $this->comment(str_repeat('=', 40))
+       	     ->line('Preparing Benchmark script')
+       	     ->comment(str_repeat('-', 40))
+       	     ->line('Script version:    ' . self::VERSION)
+       	     ->line('Current time:      ' . date('Y-m-d H:i:s'))
+       	     ->line()
+       	     ->line('Iterations to run: ' . $this->iterations)
+       	     ->line('Name of benchmark: ' . ($this->name ?? '[not set]'))
+       	     ->comment(str_repeat('=', 40))
+       	     ->line();
     }
 
     protected function disengage(): void
     {
-        $this->line();
-        $this->comment(str_repeat('=', 40));
-        $this->line('Benchmark script complete');
-        $this->comment(str_repeat('-', 40));
-        $this->info('Run information:');
-        $this->line('Script version:    ' . self::VERSION);
-        $this->line('Today\'s date:      ' . date('Y-m-d'));
-        $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
+        $this->line()
+			 ->comment(str_repeat('=', 40))
+			 ->line('Benchmark script complete')
+			 ->comment(str_repeat('-', 40));
+		
+		$this->info('Run information:')
+			 ->line('Script version:    ' . self::VERSION)
+			 ->line('Today\'s date:      ' . date('Y-m-d'))
+			 ->line('Name of benchmark: ' . ($this->name ?? '[not set]'))
+			 ->newline();
 
-        $this->newline();
-        $this->info('Benchmark information:');
-        $this->line('Total iterations:       ' . $this->iterations);
-        $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
-        $this->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms');
-        $this->line('Avg.  iterations/sec:   ' . $this->getAverageIterationsPerSecond());
-        $this->line('Approx. Memory usage:   ' . $this->getMemoryUsage());
-        $this->newline();
-        $this->info('System information:');
-        $this->line('PHP version: ' . PHP_VERSION . ' (' . php_sapi_name() . ')');
-        $this->line('OS/Arch:     ' . PHP_OS . ' (' . PHP_INT_SIZE * 8 . '-bit' . ')');
-        $this->line('xdebug:      ' . (extension_loaded('xdebug') ? 'enabled ✅' : 'disabled ❌'));
-        $this->line('opcache:     ' . (extension_loaded('opcache') ? 'enabled ✅' : 'disabled ❌'));
-        $this->comment(str_repeat('=', 40));
+        $this->info('Benchmark information:')
+			 ->line('Total iterations:       ' . $this->iterations)
+			 ->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms')
+			 ->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms')
+			 ->line('Avg.  iterations/sec:   ' . $this->getAverageIterationsPerSecond())
+			 ->line('Approx. Memory usage:   ' . $this->getMemoryUsage())
+			 ->newline();
+
+        $this->info('System information:')
+			 ->line('PHP version: ' . PHP_VERSION . ' (' . php_sapi_name() . ')')
+			 ->line('OS/Arch:     ' . PHP_OS . ' (' . PHP_INT_SIZE * 8 . '-bit' . ')')
+			 ->line('xdebug:      ' . (extension_loaded('xdebug') ? 'enabled ✅' : 'disabled ❌'))
+			 ->line('opcache:     ' . (extension_loaded('opcache') ? 'enabled ✅' : 'disabled ❌'))
+			 ->comment(str_repeat('=', 40));
     }
 
     protected function execute(callable $callback): void
