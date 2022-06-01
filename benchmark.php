@@ -54,6 +54,12 @@ class Benchmark {
         $this->comment(str_repeat('=', 40));
         $this->line('Benchmark script complete');
         $this->comment(str_repeat('-', 40));
+        $this->info('Run information:');
+        $this->line('Script version:    ' . self::VERSION);
+        $this->line('Today\'s date:      ' . date('Y-m-d'));
+        $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
+
+        $this->newline();
         $this->info('Benchmark information:');
         $this->line('Total iterations:       ' . $this->iterations);
         $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
