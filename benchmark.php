@@ -64,8 +64,8 @@ class Benchmark {
         $this->info('System information:');
         $this->line('PHP version: ' . PHP_VERSION . ' ('. php_sapi_name() . ')');
         $this->line('OS/Arch:     ' . PHP_OS.  ' (' . PHP_INT_SIZE * 8 . '-bit' . ')');
-        $this->line('xdebug:      ' . (extension_loaded('xdebug') ? 'enabled' : 'disabled'));
-        $this->line('opcache:     ' . (extension_loaded('opcache') ? 'enabled' : 'disabled'));
+        $this->line('xdebug:      ' . (extension_loaded('xdebug') ? 'enabled ✅' : 'disabled ❌'));
+        $this->line('opcache:     ' . (extension_loaded('opcache') ? 'enabled ✅' : 'disabled ❌'));
         $this->comment(str_repeat('=', 40));
     }
 
