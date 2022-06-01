@@ -11,27 +11,71 @@
  */
 
 class Benchmark {
+    protected const VERSION = 'dev-master';
+
 	protected int $iterations;
     protected float $time_start;
     protected float $time_end;
+    protected ?string $name;
 
-	public function __construct(int $iterations)
+	public function __construct(int $iterations, ?string $name = null)
     {
 		$this->iterations = $iterations;
+        $this->name = $name;
+
+        $this->init();
 	}
+
+    protected function init(): void
+    {
+        $this->line(str_repeat('=', 40));
+        $this->line('Preparing Benchmark script');
+        $this->line(str_repeat('-', 40));
+        $this->line('Script version:    ' . self::VERSION);
+        $this->line('Current time:      ' . date('Y-m-d H:i:s'));
+        $this->line();
+        $this->line('Iterations to run: ' . $this->iterations);
+        $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
+        $this->line(str_repeat('=', 40));
+        $this->line();
+    }
 
 	protected function execute(callable $callback): void
     {
-		$this->time_start = microtime(true);
+        $this->start();
 		for ($i = 0; $i < $this->iterations; $i++) {
 			$callback();
 		}
-		$this->time_end = microtime(true);
+        $this->end();
 	}
 
-	public static function run(callable $callback, int $iterations = 100): Benchmark
+    protected function start(): void
     {
-		$benchmark = new Benchmark($iterations);
+        $this->time_start = microtime(true);
+
+        $this->info('Starting benchmark...');
+    }
+
+    protected function end(): void
+    {
+        $this->time_end = microtime(true);
+
+        $this->info('Benchmark complete!');
+    }
+
+    protected function line(string $message = ''): void
+    {
+        echo $message . PHP_EOL;
+    }
+
+    protected function info(string $message): void
+    {
+        $this->line("\033[32m" . $message . "\033[0m");
+    }
+
+	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
+    {
+		$benchmark = new Benchmark($iterations, $name);
 		$benchmark->execute($callback);
 		return $benchmark;
 	}
