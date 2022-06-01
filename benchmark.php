@@ -59,6 +59,7 @@ class Benchmark {
         $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
         $this->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms');
         $this->line('Avg.  iterations/sec:   ' . $this->getAverageIterationsPerSecond());
+        $this->line('Approx. Memory usage:   ' . $this->getMemoryUsage());
         $this->comment(str_repeat('=', 40));
     }
 
@@ -98,6 +99,21 @@ class Benchmark {
     protected function getAverageIterationsPerSecond(): float
     {
         return round($this->iterations / $this->getExecutionTimeInMs(32), 2);
+    }
+
+    protected function getMemoryUsage(): string
+    {
+        $memory = memory_get_usage(true);
+
+        if ($memory < 1024) {
+            return $memory . 'B';
+        }
+
+        if ($memory < 1048576) {
+            return round($memory / 1024, 2) . 'KB';
+        }
+
+        return round($memory / 1048576, 2) . 'MB';
     }
 
 	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
