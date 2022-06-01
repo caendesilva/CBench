@@ -55,14 +55,14 @@ class Benchmark {
     {
         $this->time_start = microtime(true);
 
-        $this->info('Starting benchmark...');
+        $this->info('Starting benchmark...')->newline();
     }
 
     protected function end(): void
     {
         $this->time_end = microtime(true);
 
-        $this->info('Benchmark complete!');
+        $this->newline(2)->info('Benchmark complete!');
     }
 
 	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
@@ -116,9 +116,9 @@ trait ConsoleHelpers {
         return $this;
     }
 
-    protected function newline(): self
+    protected function newline(int $count = 1): self
     {
-        $this->line();
+        $this->line(str_repeat(PHP_EOL, $count - 1));
 
         return $this;
     }
