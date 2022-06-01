@@ -11,6 +11,8 @@
  */
 
 class Benchmark {
+    use ConsoleHelpers;
+
     protected const VERSION = 'dev-master';
 
 	protected int $iterations;
@@ -63,20 +65,26 @@ class Benchmark {
         $this->info('Benchmark complete!');
     }
 
-    protected function line(string $message = ''): void
-    {
-        echo $message . PHP_EOL;
-    }
-
-    protected function info(string $message): void
-    {
-        $this->line("\033[32m" . $message . "\033[0m");
-    }
-
 	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
     {
 		$benchmark = new Benchmark($iterations, $name);
 		$benchmark->execute($callback);
 		return $benchmark;
 	}
+}
+
+trait ConsoleHelpers {
+    protected function line(string $message = ''): self
+    {
+        echo $message . PHP_EOL;
+
+        return $this;
+    }
+
+    protected function info(string $message): self
+    {
+        $this->line("\033[32m" . $message . "\033[0m");
+
+        return $this;
+    }
 }
