@@ -54,11 +54,12 @@ class Benchmark {
         $this->comment(str_repeat('=', 40));
         $this->line('Benchmark script complete');
         $this->comment(str_repeat('-', 40));
+        $this->info('Benchmark information:');
+        $this->line('Total iterations:       ' . $this->iterations);
         $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
         $this->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms');
-        $this->line('Total iterations:       ' . $this->iterations);
+        $this->line('Avg.  iterations/sec:   ' . $this->getAverageIterationsPerSecond());
         $this->comment(str_repeat('=', 40));
-
     }
 
 	protected function execute(callable $callback): void
@@ -92,6 +93,11 @@ class Benchmark {
     protected function getAverageExecutionTimeInMs(int $precision = 8): float
     {
         return round($this->getExecutionTimeInMs(32) / $this->iterations, $precision);
+    }
+
+    protected function getAverageIterationsPerSecond(): float
+    {
+        return round($this->iterations / $this->getExecutionTimeInMs(32), 2);
     }
 
 	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
