@@ -34,6 +34,12 @@ class Benchmark {
         $this->disengage();
     }
 
+    public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
+    {
+        $benchmark = new Benchmark($iterations, $name);
+        $benchmark->execute($callback);
+        return $benchmark;
+    }
 
     protected function init(): void
     {
@@ -98,13 +104,6 @@ class Benchmark {
 
         $this->newline(2)->info('Benchmark complete!');
     }
-
-	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
-    {
-		$benchmark = new Benchmark($iterations, $name);
-		$benchmark->execute($callback);
-		return $benchmark;
-	}
 }
 
 trait ConsoleHelpers {
