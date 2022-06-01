@@ -10,24 +10,25 @@
  * comparative data results I'm interested in.
  */
 
-class Benchmark {
+class Benchmark
+{
     use ConsoleHelpers;
     use TrackingHelpers;
 
     protected const VERSION = 'dev-master';
 
-	protected int $iterations;
+    protected int $iterations;
     protected float $time_start;
     protected float $time_end;
     protected ?string $name;
 
-	public function __construct(int $iterations, ?string $name = null)
+    public function __construct(int $iterations, ?string $name = null)
     {
-		$this->iterations = $iterations;
+        $this->iterations = $iterations;
         $this->name = $name;
 
         $this->init();
-	}
+    }
 
     public function __destruct()
     {
@@ -75,21 +76,21 @@ class Benchmark {
         $this->line('Approx. Memory usage:   ' . $this->getMemoryUsage());
         $this->newline();
         $this->info('System information:');
-        $this->line('PHP version: ' . PHP_VERSION . ' ('. php_sapi_name() . ')');
-        $this->line('OS/Arch:     ' . PHP_OS.  ' (' . PHP_INT_SIZE * 8 . '-bit' . ')');
+        $this->line('PHP version: ' . PHP_VERSION . ' (' . php_sapi_name() . ')');
+        $this->line('OS/Arch:     ' . PHP_OS . ' (' . PHP_INT_SIZE * 8 . '-bit' . ')');
         $this->line('xdebug:      ' . (extension_loaded('xdebug') ? 'enabled ✅' : 'disabled ❌'));
         $this->line('opcache:     ' . (extension_loaded('opcache') ? 'enabled ✅' : 'disabled ❌'));
         $this->comment(str_repeat('=', 40));
     }
 
-	protected function execute(callable $callback): void
+    protected function execute(callable $callback): void
     {
         $this->start();
-		for ($i = 0; $i < $this->iterations; $i++) {
-			$callback();
-		}
+        for ($i = 0; $i < $this->iterations; $i++) {
+            $callback();
+        }
         $this->end();
-	}
+    }
 
     protected function start(): void
     {
@@ -106,7 +107,8 @@ class Benchmark {
     }
 }
 
-trait ConsoleHelpers {
+trait ConsoleHelpers
+{
     protected function line(string $message = ''): self
     {
         echo $message . PHP_EOL;
@@ -164,7 +166,8 @@ trait ConsoleHelpers {
     }
 }
 
-trait TrackingHelpers {
+trait TrackingHelpers
+{
     protected function getExecutionTimeInMs(int $precision = 2): float
     {
         return round(($this->time_end - $this->time_start) * 1000, $precision);
