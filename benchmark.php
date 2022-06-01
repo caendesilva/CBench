@@ -28,6 +28,12 @@ class Benchmark {
         $this->init();
 	}
 
+    public function __destruct()
+    {
+        $this->disengage();
+    }
+
+
     protected function init(): void
     {
         $this->line(str_repeat('=', 40));
@@ -40,6 +46,18 @@ class Benchmark {
         $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
         $this->line(str_repeat('=', 40));
         $this->line();
+    }
+
+    protected function disengage(): void
+    {
+        $this->line();
+        $this->line(str_repeat('=', 40));
+        $this->line('Benchmark script complete');
+        $this->line(str_repeat('-', 40));
+        $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
+        $this->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms');
+        $this->line('Total iterations:       ' . $this->iterations);
+        $this->line(str_repeat('=', 40));
     }
 
 	protected function execute(callable $callback): void
@@ -63,6 +81,16 @@ class Benchmark {
         $this->time_end = microtime(true);
 
         $this->newline(2)->info('Benchmark complete!');
+    }
+
+    protected function getExecutionTimeInMs(int $precision = 2): float
+    {
+        return round(($this->time_end - $this->time_start) * 1000, $precision);
+    }
+
+    protected function getAverageExecutionTimeInMs(int $precision = 8): float
+    {
+        return round($this->getExecutionTimeInMs(32) / $this->iterations, $precision);
     }
 
 	public static function run(callable $callback, int $iterations = 100, ?string $name = null): Benchmark
