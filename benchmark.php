@@ -36,28 +36,29 @@ class Benchmark {
 
     protected function init(): void
     {
-        $this->line(str_repeat('=', 40));
+        $this->comment(str_repeat('=', 40));
         $this->line('Preparing Benchmark script');
-        $this->line(str_repeat('-', 40));
+        $this->comment(str_repeat('-', 40));
         $this->line('Script version:    ' . self::VERSION);
         $this->line('Current time:      ' . date('Y-m-d H:i:s'));
         $this->line();
         $this->line('Iterations to run: ' . $this->iterations);
         $this->line('Name of benchmark: ' . ($this->name ?? '[not set]'));
-        $this->line(str_repeat('=', 40));
+        $this->comment(str_repeat('=', 40));
         $this->line();
     }
 
     protected function disengage(): void
     {
         $this->line();
-        $this->line(str_repeat('=', 40));
+        $this->comment(str_repeat('=', 40));
         $this->line('Benchmark script complete');
-        $this->line(str_repeat('-', 40));
+        $this->comment(str_repeat('-', 40));
         $this->line('Total execution time:   ' . $this->getExecutionTimeInMs() . 'ms');
         $this->line('Avg.  iteration time:   ' . $this->getAverageExecutionTimeInMs() . 'ms');
         $this->line('Total iterations:       ' . $this->iterations);
-        $this->line(str_repeat('=', 40));
+        $this->comment(str_repeat('=', 40));
+
     }
 
 	protected function execute(callable $callback): void
@@ -133,6 +134,13 @@ trait ConsoleHelpers {
     protected function success(string $message): self
     {
         $this->line("\033[32m" . $message . "\033[0m");
+
+        return $this;
+    }
+
+    protected function comment(string $message): self
+    {
+        $this->line("\033[37m" . $message . "\033[0m");
 
         return $this;
     }
